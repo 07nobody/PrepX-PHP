@@ -1,35 +1,39 @@
-# PrepX - Competitive Exam Preparation Platform (Core PHP + Bootstrap Version)
+# PrepX - Competitive Exam Preparation Platform (Laravel + Bootstrap Version)
 
 ## Overview
-PrepX is a simple web application designed for students preparing for competitive exams such as JEE, NEET, and Banking. This version of PrepX is built using **Core PHP and MySQL**, replacing the original **MERN stack** implementation. The frontend is developed with **Bootstrap 5**, making it easy to modify.
+PrepX is a web application designed to help students prepare for **NTA-based competitive exams**, including **CMAT, JEE, NEET, and Banking**. Built using **Laravel (PHP framework) and MySQL**, PrepX provides an intuitive and responsive interface with **Bootstrap 5** for easy navigation and use.
 
-🚧 **This project is designed for beginners in PHP and Bootstrap, ensuring simplicity and ease of use.**
-
----
-
-## 🔹 Technology Stack (PHP Alternative for MERN Components)
-
-| Feature                   | MERN (Original)      | PHP Version Replacement   |
-|---------------------------|----------------------|--------------------------|
-| Frontend                  | React + Vite        | Bootstrap 5 + Core PHP |
-| Styling                   | Tailwind CSS        | Bootstrap 5 |
-| Routing                   | React Router        | Simple PHP Routing (include statements) |
-| Backend                   | Express.js (Node)   | Core PHP (Procedural) |
-| Database                  | MongoDB (Mongoose)  | MySQL (PDO) |
-| Authentication            | JWT                 | PHP Sessions |
+🚧 **This project is designed for beginners in Laravel and Bootstrap, ensuring simplicity and ease of use.**
 
 ---
 
-## 🔹 Core Functionalities (PHP Implementation)
+## 🔹 Technology Stack
+
+| Feature                   | Implementation   |
+|---------------------------|------------------|
+| Frontend                  | Bootstrap 5 + Laravel Blade |
+| Routing                   | Laravel Routes (web.php) |
+| Backend                   | Laravel (PHP Framework) |
+| Database                  | MySQL (Eloquent ORM) |
+| Authentication            | Laravel Auth (Sessions) |
+
+---
+
+## 🔹 Core Functionalities
 
 ### ✅ **User Authentication & Role Management**
-- Secure **session-based authentication** using PHP.
+- Secure **session-based authentication** using Laravel Auth.
 - **Role-based access control (RBAC)**: Separate **Student, Teacher, and Admin** dashboards.
 
 ### ✅ **Mock Test Management**
 - Teachers can **create, edit, and verify** mock tests.
 - Students can **attempt tests** and review results.
-- **Question Types**: Multiple-choice, short answer, long answer.
+- **Supported Question Types**: 
+  - Multiple-choice questions
+  - True/False questions
+  - Numerical-based questions
+  - Logical reasoning & data interpretation
+  - General awareness & aptitude-based questions
 
 ### ✅ **User Dashboard & Performance Tracking**
 - **Personalized dashboards** for students, teachers, and admins.
@@ -40,7 +44,7 @@ PrepX is a simple web application designed for students preparing for competitiv
 - **Basic leaderboards** to show rankings.
 
 ### ✅ **Email Notifications**
-- Basic email notifications for exam updates.
+- Email notifications for exam updates using Laravel Mail.
 
 ---
 
@@ -76,7 +80,7 @@ CREATE TABLE questions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     test_id INT,
     question_text TEXT NOT NULL,
-    question_type ENUM('MCQ', 'Short Answer', 'Long Answer') NOT NULL,
+    question_type ENUM('MCQ', 'True/False', 'Numerical', 'Logical Reasoning', 'Data Interpretation', 'General Awareness') NOT NULL,
     options TEXT,
     correct_answer TEXT,
     FOREIGN KEY (test_id) REFERENCES tests(id)
@@ -104,50 +108,69 @@ CREATE TABLE results (
 - PHP 8.x installed
 - MySQL database
 - PhpStorm IDE
+- Composer (for Laravel)
 
 ### Setup Instructions
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/prepx-php.git
-   cd prepx-php
+   git clone https://github.com/yourusername/prepx-laravel.git
+   cd prepx-laravel
    ```
 
-2. **Setup MySQL Database**
+2. **Install Laravel & Dependencies**
+   ```bash
+   composer install
+   npm install   # If using Laravel Mix for assets
+   ```
+
+3. **Setup MySQL Database**
    - Create a database `prepx_db` and import the SQL schema.
 
-3. **Configure Database Connection (db.php)**
-   ```php
-   <?php
-   $host = 'localhost';
-   $db   = 'prepx_db';
-   $user = 'root';
-   $pass = '';
-   $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
-   try {
-       $pdo = new PDO($dsn, $user, $pass);
-       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   } catch (PDOException $e) {
-       die("Database connection failed: " . $e->getMessage());
-   }
-   ?>
+4. **Configure Environment Variables (.env file)**
+   ```env
+   APP_NAME=PrepX
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=prepx_db
+   DB_USERNAME=root
+   DB_PASSWORD=
    ```
 
-4. **Start the Development Server**
+5. **Run Database Migrations**
    ```bash
-   php -S localhost:8000
+   php artisan migrate
    ```
 
-5. **Access the Application**
-   - Open your browser and go to `http://localhost:8000/`.
+6. **Start Laravel Development Server**
+   ```bash
+   php artisan serve
+   ```
+
+7. **Access the Application**
+   - Open your browser and go to `http://127.0.0.1:8000/`.
    - Register as a student or teacher.
    - Start attempting mock tests and track performance.
 
 ---
 
-## 🔹 Deployment Guide
-- **Backend Hosting:** Deploy on **cPanel, DigitalOcean, or AWS**.
-- **Frontend Hosting:** Serve via **Apache/Nginx**.
-- **Database:** MySQL hosted on **cPanel or DigitalOcean**.
+## 🔹 Free Deployment Guide (000WebHost / InfinityFree)
+
+### **Option 1: 000WebHost (Free PHP Hosting)**
+1. Sign up at [000WebHost](https://www.000webhost.com/).
+2. Upload your Laravel project via **FTP or File Manager**.
+3. Update your `.env` file with the database details from 000WebHost.
+4. Run migrations using:
+   ```bash
+   php artisan migrate --force
+   ```
+5. Access your project via the **provided subdomain**.
+
+### **Option 2: InfinityFree (Unlimited Free PHP Hosting)**
+1. Create an account at [InfinityFree](https://www.infinityfree.net/).
+2. Upload Laravel files via **FTP (FileZilla recommended)**.
+3. Modify the `.env` file with the MySQL database details.
+4. Use **Cron Jobs** for background tasks (if needed).
 
 ---
 
@@ -161,5 +184,5 @@ For inquiries, reach out via **neelpatelcoc2gmail.com** or open an issue in the 
 
 ---
 
-🚀 **PrepX (Core PHP + Bootstrap Edition) is ready for exam preparation!**
+🚀 **PrepX (Laravel + Bootstrap Edition) is ready for NTA exams preparation!**
 
